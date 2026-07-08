@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  phone     String?
+
+  createdAt DateTime   @default(now())
+
+  Icecream      Icecream[]
+  Vendor        Vendor[]
+  InitialStock  InitialStock[]
+  LeftoverStock LeftoverStock[]
+  Report        Report[]
+}
+
+model Icecream {
+  id        String   @id @default(uuid())
+  name      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  price     Float
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Vendor{
+  id        String     @id @default(uuid())
+  name      String
+  phone     String
+
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+
+  InitialStock  InitialStock[]
+  LeftoverStock LeftoverStock[]
+  Report        Report[]
+}
+
+model InitialStock {
+  id        String   @id @default(uuid())
+  vendorId  String
+  userId    String
+  date      DateTime
+  stocks    Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([vendorId, date])
+}
+
+model LeftoverStock {
+  id        String   @id @default(uuid())
+  vendorId  String
+  userId    String
+  date      DateTime
+  stocks    Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([vendorId, date])
+}
+
+model Report {
+  id               String   @id @default(uuid())
+  vendorId         String
+  userId           String
+  date             DateTime
+  initialStock     Json
+  leftoverStock    Json
+  totalSale        Float
+  vendorCommission Float
+  companyProfit    Float
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  vendor Vendor @relation(fields: [vendorId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([vendorId, date])
+}
