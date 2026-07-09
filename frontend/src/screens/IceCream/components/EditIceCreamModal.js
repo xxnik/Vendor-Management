@@ -5,6 +5,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 
 import styles from "../style";
@@ -43,8 +46,15 @@ export default function EditIceCreamModal({
       transparent
       animationType="fade"
     >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={styles.modalOverlay}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.modalContainer}>
 
           <Text style={styles.modalTitle}>
             Update Ice Cream
@@ -92,9 +102,8 @@ export default function EditIceCreamModal({
               </Text>
             </TouchableOpacity>
           </View>
-
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

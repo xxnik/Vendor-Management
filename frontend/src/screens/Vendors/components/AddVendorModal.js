@@ -5,6 +5,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 
 import styles from "../style";
@@ -41,11 +44,18 @@ export default function AddVendorModal({
       transparent
       animationType="slide"
     >
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>
-            Add Vendor
-          </Text>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={styles.modalOverlay}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>
+              Add Vendor
+            </Text>
 
           <TextInput
             placeholder="Vendor Name"
@@ -81,8 +91,8 @@ export default function AddVendorModal({
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
-    </Modal>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
   );
 }
