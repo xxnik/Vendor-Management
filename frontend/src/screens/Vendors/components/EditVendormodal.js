@@ -97,5 +97,5 @@ export default function EditVendorModal({
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-  );
+    </Modal>
 }
