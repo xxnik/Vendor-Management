@@ -24,4 +24,8 @@ app.use("/api/leftover-stock", leftoverStockRoutes);
 
 app.use("/api/report", reportRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Backend Running");
+});
+
 module.exports = app;

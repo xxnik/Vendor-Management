@@ -4,7 +4,6 @@
     "slug": "ICT",
     "version": "1.0.0",
     "orientation": "portrait",
-    
     "scheme": "ict",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -32,6 +31,12 @@
       "eas": {
         "projectId": "6aad7224-b96a-471f-91d7-daa8ebe9842f"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6aad7224-b96a-471f-91d7-daa8ebe9842f"
     }
   }
 }

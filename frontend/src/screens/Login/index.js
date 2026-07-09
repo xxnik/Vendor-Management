@@ -68,8 +68,15 @@ export default function Login() {
         router.replace(redirect || "/(tabs)/home");
       }, 100);
     } catch (error) {
-      showErrorToast(error.response?.data?.message || "Something went wrong.");
-    }
+  alert(
+    JSON.stringify({
+      message: error.message,
+      code: error.code,
+      status: error.response?.status,
+      data: error.response?.data,
+    })
+  );
+}
   };
 
   return (
