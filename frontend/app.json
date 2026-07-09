@@ -12,7 +12,8 @@
     "android": {
       "usesCleartextTraffic": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.ICT"
+      "package": "com.anonymous.ICT",
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "output": "static",
