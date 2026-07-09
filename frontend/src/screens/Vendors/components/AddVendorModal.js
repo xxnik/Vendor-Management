@@ -12,11 +12,7 @@ import {
 
 import styles from "../style";
 
-export default function AddVendorModal({
-  visible,
-  onClose,
-  onSave,
-}) {
+export default function AddVendorModal({ visible, onClose, onSave }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
@@ -39,60 +35,45 @@ export default function AddVendorModal({
   };
 
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-    >
+    <Modal visible={visible} transparent animationType="slide">
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
           contentContainerStyle={styles.modalOverlay}
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>
-              Add Vendor
-            </Text>
+            <Text style={styles.modalTitle}>Add Vendor</Text>
 
-          <TextInput
-            placeholder="Vendor Name"
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-          />
+            <TextInput
+              placeholder="Vendor Name"
+              value={name}
+              onChangeText={setName}
+              style={styles.input}
+            />
 
-          <TextInput
-            placeholder="Phone Number (optional)"
-            value={phone}
-            onChangeText={setPhone}
-            style={styles.input}
-            keyboardType="phone-pad"
-          />
+            <TextInput
+              placeholder="Phone Number (optional)"
+              value={phone}
+              onChangeText={setPhone}
+              style={styles.input}
+              keyboardType="phone-pad"
+            />
 
-          <View style={styles.modalButtons}>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={handleClose}
-            >
-              <Text style={styles.cancelText}>
-                Cancel
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
+                <Text style={styles.cancelText}>Cancel</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={handleSave}
-            >
-              <Text style={styles.saveText}>
-                Save
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+                <Text style={styles.saveText}>Save</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Modal>
+  );
 }

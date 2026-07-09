@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import styles from "./style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const router = useRouter();
@@ -47,15 +48,20 @@ export default function Login() {
     }
 
     try {
-      const response = await api.post(
-        "/api/auth/login",
-        {
-          email: trimmedEmail,
-          password,
-        },
-      );
+      const response = await api.post("/api/auth/login", {
+        email: trimmedEmail,
+        password,
+      });
 
-      console.log(response);
+      console.log(response.data);
+
+      await AsyncStorage.setItem("token", response.data.token);
+      await AsyncStorage.setItem("user", JSON.stringify(response.data.user));
+
+      const token = await AsyncStorage.getItem("token");
+
+      console.log("TOKEN =", token);
+      
       setUser(response.data.user);
 
       Toast.show({
@@ -68,15 +74,15 @@ export default function Login() {
         router.replace(redirect || "/(tabs)/home");
       }, 100);
     } catch (error) {
-  alert(
-    JSON.stringify({
-      message: error.message,
-      code: error.code,
-      status: error.response?.status,
-      data: error.response?.data,
-    })
-  );
-}
+      alert(
+        JSON.stringify({
+          message: error.message,
+          code: error.code,
+          status: error.response?.status,
+          data: error.response?.data,
+        }),
+      );
+    }
   };
 
   return (

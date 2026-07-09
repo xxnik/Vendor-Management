@@ -102,6 +102,7 @@ export default function EditIceCreamModal({
               </Text>
             </TouchableOpacity>
           </View>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </Modal>
