@@ -17,7 +17,7 @@ import { useFocusEffect, useRouter, usePathname } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios";
+import { api } from "../../config";
 
 export default function IceCream() {
   const [iceCreams, setIceCreams] = useState([]);
@@ -41,8 +41,8 @@ export default function IceCream() {
     }
 
     try {
-      const response = await axios.get(
-        `http://10.210.94.213:5000/api/icecream/user/${user.id}`,
+      const response = await api.get(
+        `/api/icecream/user/${user.id}`,
       );
 
       if (response.data?.success) {
@@ -84,8 +84,8 @@ export default function IceCream() {
     }
 
     try {
-      const response = await axios.post(
-        "http://10.210.94.213:5000/api/icecream/create",
+      const response = await api.post(
+        "/api/icecream/create",
         {
           ...item,
           userId: user.id,
@@ -110,8 +110,8 @@ export default function IceCream() {
   const handleUpdate = async (updatedItem) => {
     console.log("update clicked");
     try {
-      const response = await axios.put(
-        `http://10.210.94.213:5000/api/icecream/${selectedIceCream.id}`,
+      const response = await api.put(
+        `/api/icecream/${selectedIceCream.id}`,
         { ...updatedItem },
       );
       if (response.data?.success) {
@@ -135,8 +135,8 @@ export default function IceCream() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `http://10.210.94.213:5000/api/icecream/${selectedIceCream.id}`,
+      const response = await api.delete(
+        `/api/icecream/${selectedIceCream.id}`,
       );
       if (response.data?.success) {
         setIceCreams((prev) =>

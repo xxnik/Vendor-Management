@@ -1,6 +1,5 @@
-import React, { useState } from "react";
 import Toast from "react-native-toast-message";
-import axios from "axios";
+import { api } from "../../config";
 import {
   View,
   Text,
@@ -25,8 +24,8 @@ export default function Signup() {
 
   const handleSignup = async () => {
     try {
-      const response = await axios.post(
-        "http://10.210.94.213:5000/api/auth/signup",
+      const response = await api.post(
+        "/api/auth/signup",
         {
           fullName,
           email,

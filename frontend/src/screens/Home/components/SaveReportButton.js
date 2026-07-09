@@ -5,7 +5,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 
-import axios from "axios";
+import { api } from "../../../config";
 import { toDateKey } from "../../../utils/date";
 import { useAuth } from "../../../context/AuthContext";
 import Toast from "react-native-toast-message";
@@ -41,8 +41,8 @@ export default function SaveReportButton({
       let companyProfit = 0;
 
       try {
-        const iceCreamResponse = await axios.get(
-          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
+        const iceCreamResponse = await api.get(
+          `/api/icecream/user/${vendor.userId}`,
         );
         if (iceCreamResponse.data?.icecreams) {
           iceCreams = iceCreamResponse.data.icecreams;
@@ -62,8 +62,8 @@ export default function SaveReportButton({
       vendorCommission = (totalSale * commissionPercent) / 100;
       companyProfit = totalSale - vendorCommission;
 
-      await axios.post(
-        "http://10.210.94.213:5000/api/report",
+      await api.post(
+        "/api/report",
         {
           vendorId: vendor.id,
           userId: user.id,

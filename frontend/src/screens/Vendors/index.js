@@ -11,7 +11,7 @@ import EditVendorModal from "./components/EditVendormodal";
 import DeleteVendorModal from "./components/DeleteVendorModal";
 
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios";
+import { api } from "../../config";
 
 import styles from "./style";
 
@@ -43,8 +43,8 @@ export default function Vendors() {
       return;
     }
     try {
-      const response = await axios.get(
-        `http://10.210.94.213:5000/api/vendor/user/${user.id}`,
+      const response = await api.get(
+        `/api/vendor/user/${user.id}`,
       );
       if (response.data?.success) {
         setVendorList(response.data?.vendor || []);
@@ -66,8 +66,8 @@ export default function Vendors() {
       return;
     }
     try {
-      const response = await axios.post(
-        "http://10.210.94.213:5000/api/vendor/create",
+      const response = await api.post(
+        "/api/vendor/create",
         {
           ...vendor,
           userId: user.id,
@@ -93,8 +93,8 @@ export default function Vendors() {
 
   const handleUpdate = async (updatedVendor) => {
     try {
-      await axios.put(
-        `http://10.210.94.213:5000/api/vendor/${updatedVendor.id}`,
+      await api.put(
+        `/api/vendor/${updatedVendor.id}`,
         {
           name: updatedVendor.name,
           phone: updatedVendor.phone,
@@ -126,8 +126,8 @@ export default function Vendors() {
   const handleDelete = async () => {
     if (!selectedVendor) return;
     try {
-      await axios.delete(
-        `http://10.210.94.213:5000/api/vendor/${selectedVendor.id}`,
+      await api.delete(
+        `/api/vendor/${selectedVendor.id}`,
       );
       setDeleteVisible(false);
       setSelectedVendor(null);

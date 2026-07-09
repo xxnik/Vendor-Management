@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import Toast from "react-native-toast-message";
 import { useAuth } from "../../context/AuthContext";
+import Toast from "react-native-toast-message";
+import { api } from "../../config";
 
 import {
   KeyboardAvoidingView,
@@ -47,8 +47,8 @@ export default function Login() {
     }
 
     try {
-      const response = await axios.post(
-        "http://10.210.94.213:5000/api/auth/login",
+      const response = await api.post(
+        "/api/auth/login",
         {
           email: trimmedEmail,
           password,

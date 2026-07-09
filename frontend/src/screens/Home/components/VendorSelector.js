@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import axios from "axios";
+import { api } from "../../../config";
 import { useAuth } from "../../../context/AuthContext";
 
 import styles from "./style";
@@ -30,8 +30,8 @@ export default function VendorSelector({
     }
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://10.210.94.213:5000/api/vendor/user/${user.id}`,
+      const response = await api.get(
+        `/api/vendor/user/${user.id}`,
       );
       if (response.data?.success) {
         setVendors(response.data?.vendor || []);

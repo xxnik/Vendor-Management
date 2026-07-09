@@ -9,7 +9,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { toDateKey } from "../../../utils/date";
-import axios from "axios";
+import { api } from "../../../config";
 import Toast from "react-native-toast-message";
 
 import styles from "./style";
@@ -54,8 +54,8 @@ export default function LeftoverStockCard({
     const fetchIceCreams = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
+        const response = await api.get(
+          `/api/icecream/user/${vendor.userId}`,
         );
         if (response.data?.success || response.data?.icecreams) {
           setIceCreams(response.data?.icecreams || []);
@@ -80,8 +80,8 @@ export default function LeftoverStockCard({
     const fetchLeftoverStock = async () => {
       try {
         const dateKey = toDateKey(date);
-        const response = await axios.get(
-          `http://10.210.94.213:5000/api/leftover-stock/vendor/${vendor.id}/date/${dateKey}`,
+        const response = await api.get(
+          `/api/leftover-stock/vendor/${vendor.id}/date/${dateKey}`,
         );
         if (response.data?.success && response.data?.leftoverStock) {
           const savedStocks = response.data.leftoverStock.stocks || {};
@@ -104,8 +104,8 @@ export default function LeftoverStockCard({
 
     setSaving(true);
     try {
-      await axios.post(
-        "http://10.210.94.213:5000/api/leftover-stock",
+        await api.post(
+          "/api/leftover-stock",
         {
           vendorId: vendor.id,
           userId,
@@ -120,8 +120,8 @@ export default function LeftoverStockCard({
       let companyProfit = 0;
 
       try {
-        const iceCreamResponse = await axios.get(
-          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
+        const iceCreamResponse = await api.get(
+          `/api/icecream/user/${vendor.userId}`,
         );
         if (iceCreamResponse.data?.icecreams) {
           iceCreams = iceCreamResponse.data.icecreams;
@@ -152,8 +152,8 @@ export default function LeftoverStockCard({
 
       setTimeout(async () => {
         try {
-          await axios.post(
-            "http://10.210.94.213:5000/api/report",
+            await api.post(
+              "/api/report",
             {
               vendorId: vendor.id,
               userId,

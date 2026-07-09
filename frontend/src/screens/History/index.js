@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { formatDisplayDate, toDateKey } from "../../utils/date";
 import Toast from "react-native-toast-message";
+import { api } from "../../config";
 
 import MainLayout from "../../layouts/MainLayout";
 import ScreenContainer from "../../components/ScreenContainer";
@@ -129,8 +129,8 @@ export default function History() {
     setLoading(true);
     setHasSearched(true);
     try {
-      const response = await axios.get(
-        `http://10.210.94.213:5000/api/report/range`,
+      const response = await api.get(
+        `/api/report/range`,
         {
           params: {
             userId: user.id,

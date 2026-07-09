@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import axios from "axios";
+import { api } from "../../../config";
 
 import styles from "./style";
 
@@ -31,8 +31,8 @@ export default function SummaryCard({
     const fetchIceCreams = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
+        const response = await api.get(
+          `/api/icecream/user/${vendor.userId}`,
         );
         if (response.data?.success || response.data?.icecreams) {
           setIceCreams(response.data?.icecreams || []);

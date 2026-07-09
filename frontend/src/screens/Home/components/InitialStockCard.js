@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import axios from "axios";
+import { api } from "../../../config";
 import { toDateKey } from "../../../utils/date";
 import Toast from "react-native-toast-message";
 
@@ -49,8 +49,8 @@ export default function InitialStockCard({
     const fetchIceCreams = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
+        const response = await api.get(
+          `/api/icecream/user/${vendor.userId}`,
         );
         if (response.data?.success || response.data?.icecreams) {
           setIceCreams(response.data?.icecreams || []);
@@ -75,8 +75,8 @@ export default function InitialStockCard({
     const fetchInitialStock = async () => {
       try {
         const dateKey = toDateKey(date);
-        const response = await axios.get(
-          `http://10.210.94.213:5000/api/initial-stock/vendor/${vendor.id}/date/${dateKey}`,
+        const response = await api.get(
+          `/api/initial-stock/vendor/${vendor.id}/date/${dateKey}`,
         );
         if (response.data?.success && response.data?.initialStock) {
           const savedStocks = response.data.initialStock.stocks || {};
@@ -99,8 +99,8 @@ export default function InitialStockCard({
 
     setSaving(true);
     try {
-      await axios.post(
-        "http://10.210.94.213:5000/api/initial-stock",
+        await api.post(
+          "/api/initial-stock",
         {
           vendorId: vendor.id,
           userId,
