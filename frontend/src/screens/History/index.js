@@ -130,7 +130,7 @@ export default function History() {
     setHasSearched(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/report/range`,
+        `http://10.210.94.213:5000/api/report/range`,
         {
           params: {
             userId: user.id,

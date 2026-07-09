@@ -50,7 +50,7 @@ export default function InitialStockCard({
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/icecream/user/${vendor.userId}`,
+          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
         );
         if (response.data?.success || response.data?.icecreams) {
           setIceCreams(response.data?.icecreams || []);
@@ -76,7 +76,7 @@ export default function InitialStockCard({
       try {
         const dateKey = toDateKey(date);
         const response = await axios.get(
-          `http://localhost:5000/api/initial-stock/vendor/${vendor.id}/date/${dateKey}`,
+          `http://10.210.94.213:5000/api/initial-stock/vendor/${vendor.id}/date/${dateKey}`,
         );
         if (response.data?.success && response.data?.initialStock) {
           const savedStocks = response.data.initialStock.stocks || {};
@@ -100,7 +100,7 @@ export default function InitialStockCard({
     setSaving(true);
     try {
       await axios.post(
-        "http://localhost:5000/api/initial-stock",
+        "http://10.210.94.213:5000/api/initial-stock",
         {
           vendorId: vendor.id,
           userId,

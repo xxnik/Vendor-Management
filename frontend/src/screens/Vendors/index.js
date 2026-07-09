@@ -44,7 +44,7 @@ export default function Vendors() {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/vendor/user/${user.id}`,
+        `http://10.210.94.213:5000/api/vendor/user/${user.id}`,
       );
       if (response.data?.success) {
         setVendorList(response.data?.vendor || []);
@@ -67,7 +67,7 @@ export default function Vendors() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/vendor/create",
+        "http://10.210.94.213:5000/api/vendor/create",
         {
           ...vendor,
           userId: user.id,
@@ -94,7 +94,7 @@ export default function Vendors() {
   const handleUpdate = async (updatedVendor) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/vendor/${updatedVendor.id}`,
+        `http://10.210.94.213:5000/api/vendor/${updatedVendor.id}`,
         {
           name: updatedVendor.name,
           phone: updatedVendor.phone,
@@ -127,7 +127,7 @@ export default function Vendors() {
     if (!selectedVendor) return;
     try {
       await axios.delete(
-        `http://localhost:5000/api/vendor/${selectedVendor.id}`,
+        `http://10.210.94.213:5000/api/vendor/${selectedVendor.id}`,
       );
       setDeleteVisible(false);
       setSelectedVendor(null);

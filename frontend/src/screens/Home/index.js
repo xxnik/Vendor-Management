@@ -55,7 +55,7 @@ export default function Home() {
       setLoadingReports(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/report/date/${toDateKey(selectedDate)}`,
+          `http://10.210.94.213:5000/api/report/date/${toDateKey(selectedDate)}`,
           {
             params: { userId: user.id },
           },
@@ -92,7 +92,7 @@ export default function Home() {
     const checkExistingReport = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/report/date/${toDateKey(selectedDate)}`,
+          `http://10.210.94.213:5000/api/report/date/${toDateKey(selectedDate)}`,
           {
             params: { userId: user.id },
           },

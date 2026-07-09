@@ -42,7 +42,7 @@ export default function SaveReportButton({
 
       try {
         const iceCreamResponse = await axios.get(
-          `http://localhost:5000/api/icecream/user/${vendor.userId}`,
+          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
         );
         if (iceCreamResponse.data?.icecreams) {
           iceCreams = iceCreamResponse.data.icecreams;
@@ -63,7 +63,7 @@ export default function SaveReportButton({
       companyProfit = totalSale - vendorCommission;
 
       await axios.post(
-        "http://localhost:5000/api/report",
+        "http://10.210.94.213:5000/api/report",
         {
           vendorId: vendor.id,
           userId: user.id,

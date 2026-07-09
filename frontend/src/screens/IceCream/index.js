@@ -42,7 +42,7 @@ export default function IceCream() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/icecream/user/${user.id}`,
+        `http://10.210.94.213:5000/api/icecream/user/${user.id}`,
       );
 
       if (response.data?.success) {
@@ -85,7 +85,7 @@ export default function IceCream() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/icecream/create",
+        "http://10.210.94.213:5000/api/icecream/create",
         {
           ...item,
           userId: user.id,
@@ -111,7 +111,7 @@ export default function IceCream() {
     console.log("update clicked");
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/icecream/${selectedIceCream.id}`,
+        `http://10.210.94.213:5000/api/icecream/${selectedIceCream.id}`,
         { ...updatedItem },
       );
       if (response.data?.success) {
@@ -136,7 +136,7 @@ export default function IceCream() {
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/icecream/${selectedIceCream.id}`,
+        `http://10.210.94.213:5000/api/icecream/${selectedIceCream.id}`,
       );
       if (response.data?.success) {
         setIceCreams((prev) =>

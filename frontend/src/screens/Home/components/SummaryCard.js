@@ -32,7 +32,7 @@ export default function SummaryCard({
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/icecream/user/${vendor.userId}`,
+          `http://10.210.94.213:5000/api/icecream/user/${vendor.userId}`,
         );
         if (response.data?.success || response.data?.icecreams) {
           setIceCreams(response.data?.icecreams || []);

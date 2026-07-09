@@ -26,7 +26,7 @@ export default function Signup() {
   const handleSignup = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        "http://10.210.94.213:5000/api/auth/signup",
         {
           fullName,
           email,
