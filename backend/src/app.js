@@ -28,4 +28,8 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
+app.get("/ping", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 module.exports = app;

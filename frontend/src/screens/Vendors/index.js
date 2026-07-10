@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, BackHandler } from "react-native";
+import { View, Text, TouchableOpacity, BackHandler, ActivityIndicator } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter, useFocusEffect, usePathname } from "expo-router";
 import Toast from "react-native-toast-message";
@@ -26,6 +26,7 @@ function getInitials(name) {
 
 export default function Vendors() {
   const [vendorList, setVendorList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
@@ -42,6 +43,7 @@ export default function Vendors() {
       setVendorList([]);
       return;
     }
+    setLoading(true);
     try {
       const response = await api.get(
         `/api/vendor/user/${user.id}`,
@@ -51,6 +53,8 @@ export default function Vendors() {
       }
     } catch (error) {
       console.log("Error:", error.response?.data || error.message);
+    } finally {
+      setLoading(false);
     }
   }, [user?.id]);
 
@@ -202,7 +206,11 @@ export default function Vendors() {
           )}
         </View>
 
-        {vendorList.length === 0 ? (
+        {loading ? (
+          <View style={{ padding: 20, alignItems: "center" }}>
+            <ActivityIndicator size="large" color="#EC5AA7" />
+          </View>
+        ) : vendorList.length === 0 ? (
           <Text style={styles.emptyText}>No vendors available.</Text>
         ) : (
           vendorList.map((vendor) => (

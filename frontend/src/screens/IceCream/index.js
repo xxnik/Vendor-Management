@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import MainLayout from "../../layouts/MainLayout";
@@ -21,6 +21,7 @@ import { api } from "../../config";
 
 export default function IceCream() {
   const [iceCreams, setIceCreams] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [addVisible, setAddVisible] = useState(false);
 
@@ -40,6 +41,7 @@ export default function IceCream() {
       return;
     }
 
+    setLoading(true);
     try {
       const response = await api.get(
         `/api/icecream/user/${user.id}`,
@@ -50,6 +52,8 @@ export default function IceCream() {
       }
     } catch (error) {
       console.log("Error:", error.response?.data || error.message);
+    } finally {
+      setLoading(false);
     }
   }, [user?.id]);
 
@@ -189,24 +193,30 @@ export default function IceCream() {
           )}
         </View>
 
-        <FlatList
-          data={iceCreams}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <IceCreamCard
-              item={item}
-              onEdit={() => {
-                setSelectedIceCream(item);
-                setEditVisible(true);
-              }}
-              onDelete={() => {
-                setSelectedIceCream(item);
-                setDeleteVisible(true);
-              }}
-            />
-          )}
-        />
+        {loading ? (
+          <View style={{ padding: 20, alignItems: "center" }}>
+            <ActivityIndicator size="large" color="#EC5AA7" />
+          </View>
+        ) : (
+          <FlatList
+            data={iceCreams}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <IceCreamCard
+                item={item}
+                onEdit={() => {
+                  setSelectedIceCream(item);
+                  setEditVisible(true);
+                }}
+                onDelete={() => {
+                  setSelectedIceCream(item);
+                  setDeleteVisible(true);
+                }}
+              />
+            )}
+          />
+        )}
 
         <AddIceCreamModal
           visible={addVisible}
