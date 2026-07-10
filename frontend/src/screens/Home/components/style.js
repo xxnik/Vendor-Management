@@ -245,57 +245,72 @@ initialStockTopInput: {
 },
 
 initialStockItem: {
-  borderTopWidth: 1,
-  borderTopColor: "#B8D6E7",
-  paddingTop: 25,
-  marginTop: 0,
-  marginBottom: 22,
-},
+    borderTopWidth: 1,
+    borderTopColor: "#B8D6E7",
+    paddingTop: 14,
+    paddingBottom: 14,
+    marginTop: 0,
+    marginBottom: 10,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 14,
+  },
 
-initialStockItemHeader: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  marginBottom: 12,
-},
+  initialStockItemWithBorder: {
+    borderTopWidth: 1,
+    borderTopColor: "#B8D6E7",
+  },
 
-initialStockNameWrap: {
-  flex: 1,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingRight: 10,
-},
+  initialStockItemRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
 
-initialStockItemName: {
-  marginLeft: 10,
-  fontSize: 16,
-  fontWeight: "800",
-  color: "#1F2A44",
-},
+  initialStockNameWrap: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 10,
+  },
 
-initialStockPrice: {
-  fontSize: 12,
-  color: "#5E6A7A",
-},
+  initialStockItemName: {
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#1F2A44",
+  },
 
-initialStockQtyInput: {
-  height: 35,
-  backgroundColor: "#C5DDEC",
-  borderRadius: 4,
-  paddingHorizontal: 11,
-  fontSize: 14,
-  color: "#1F2A44",
-},
+  initialStockPrice: {
+    fontSize: 13,
+    color: "#5E6A7A",
+    fontWeight: "700",
+  },
 
-initialStockReadOnlyValue: {
-  height: 35,
-  backgroundColor: "#C5DDEC",
-  borderRadius: 4,
-  paddingHorizontal: 11,
-  paddingTop: 8,
-  fontSize: 14,
-  color: "#1F2A44",
-},
+  initialStockQtyInput: {
+    height: 44,
+    minWidth: 90,
+    backgroundColor: "#C5DDEC",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    fontSize: 16,
+    color: "#1F2A44",
+    fontWeight: "700",
+  },
+
+  initialStockReadOnlyValue: {
+    height: 44,
+    minWidth: 90,
+    backgroundColor: "#C5DDEC",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    fontSize: 16,
+    color: "#1F2A44",
+    fontWeight: "700",
+    textAlign: "center",
+  },
 
 initialStockButton: {
   height: 36,
@@ -337,59 +352,65 @@ leftoverStockSubtitle: {
 },
 
 leftoverStockItem: {
-  marginBottom: 23,
-},
+    marginBottom: 10,
+  },
 
-leftoverStockItemWithBorder: {
-  borderTopWidth: 1,
-  borderTopColor: "#B8D6E7",
-  paddingTop: 26,
-},
+  leftoverStockItemWithBorder: {
+    borderTopWidth: 1,
+    borderTopColor: "#B8D6E7",
+    paddingTop: 14,
+  },
 
-leftoverStockItemHeader: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "space-between",
-  marginBottom: 12,
-},
+  leftoverStockItemRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
 
-leftoverStockNameWrap: {
-  flex: 1,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingRight: 10,
-},
+  leftoverStockNameWrap: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 10,
+  },
 
-leftoverStockItemName: {
-  marginLeft: 9,
-  fontSize: 16,
-  fontWeight: "800",
-  color: "#1F2A44",
-},
+  leftoverStockItemName: {
+    marginLeft: 9,
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#1F2A44",
+  },
 
-leftoverStockPrice: {
-  fontSize: 12,
-  color: "#5E6A7A",
-},
+  leftoverStockPrice: {
+    fontSize: 13,
+    color: "#5E6A7A",
+    fontWeight: "700",
+  },
 
-leftoverStockQtyInput: {
-  height: 34,
-  backgroundColor: "#C5DDEC",
-  borderRadius: 4,
-  paddingHorizontal: 11,
-  fontSize: 14,
-  color: "#1F2A44",
-},
+  leftoverStockQtyInput: {
+    height: 44,
+    minWidth: 90,
+    backgroundColor: "#C5DDEC",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    fontSize: 16,
+    color: "#1F2A44",
+    fontWeight: "700",
+  },
 
-leftoverStockReadOnlyValue: {
-  height: 34,
-  backgroundColor: "#C5DDEC",
-  borderRadius: 4,
-  paddingHorizontal: 11,
-  paddingTop: 8,
-  fontSize: 14,
-  color: "#1F2A44",
-},
+  leftoverStockReadOnlyValue: {
+    height: 44,
+    minWidth: 90,
+    backgroundColor: "#C5DDEC",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    fontSize: 16,
+    color: "#1F2A44",
+    fontWeight: "700",
+    textAlign: "center",
+  },
 
 leftoverStockEmptyText: {
   backgroundColor: "#C5DDEC",

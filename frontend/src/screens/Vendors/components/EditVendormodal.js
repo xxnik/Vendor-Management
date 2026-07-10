@@ -10,11 +10,14 @@ import {
   Platform,
 } from "react-native";
 
+import { useLanguage } from "../../../context/LanguageContext";
+
 import styles from "../style";
 
 export default function EditVendorModal({ visible, vendor, onClose, onUpdate }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (vendor) {
@@ -46,18 +49,18 @@ export default function EditVendorModal({ visible, vendor, onClose, onUpdate }) 
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Edit Vendor</Text>
+            <Text style={styles.modalTitle}>{t("vendorUpdated")}</Text>
 
             <TextInput
               style={styles.input}
-              placeholder="Vendor Name"
+              placeholder={t("vendorName")}
               value={name}
               onChangeText={setName}
             />
 
             <TextInput
               style={styles.input}
-              placeholder="Phone Number (optional)"
+              placeholder={t("vendorPhoneNumberLabel")}
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
@@ -65,11 +68,11 @@ export default function EditVendorModal({ visible, vendor, onClose, onUpdate }) 
 
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={styles.cancelText}>{t("cancel")}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.saveButton} onPress={handleUpdate}>
-                <Text style={styles.saveText}>Update</Text>
+                <Text style={styles.saveText}>{t("update")}</Text>
               </TouchableOpacity>
             </View>
           </View>

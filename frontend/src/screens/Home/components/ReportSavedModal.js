@@ -8,6 +8,8 @@ import {
 
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useLanguage } from "../../../context/LanguageContext";
+
 import styles from "./style";
 
 export default function ReportSavedModal({
@@ -17,6 +19,8 @@ export default function ReportSavedModal({
   onDownload,
   onShare,
 }) {
+  const { t } = useLanguage();
+
   if (!report) return null;
 
   return (
@@ -34,28 +38,28 @@ export default function ReportSavedModal({
           />
 
           <Text style={styles.reportTitle}>
-            Report Saved Successfully
+            {t("reportSavedSuccessfully")}
           </Text>
 
           <View style={styles.reportInfo}>
             <Text style={styles.reportText}>
-              Date : {report.date}
+              {t("date")} : {report.date}
             </Text>
 
             <Text style={styles.reportText}>
-              Vendor : {report.vendor}
+              {t("vendor")} : {report.vendor}
             </Text>
 
             <Text style={styles.reportText}>
-              Total Sale : ₹{report.totalSale}
+              {t("totalSale")} : ₹{report.totalSale}
             </Text>
 
             <Text style={styles.reportText}>
-              Commission : ₹{report.commission}
+              {t("commission")} : ₹{report.commission}
             </Text>
 
             <Text style={styles.reportText}>
-              Company Profit : ₹{report.profit}
+              {t("companyProfit")} : ₹{report.profit}
             </Text>
           </View>
 
@@ -64,7 +68,7 @@ export default function ReportSavedModal({
             onPress={onDownload}
           >
             <Text style={styles.downloadButtonText}>
-              Download PDF
+              {t("downloadPdf")}
             </Text>
           </TouchableOpacity>
 
@@ -73,7 +77,7 @@ export default function ReportSavedModal({
             onPress={onShare}
           >
             <Text style={styles.shareButtonText}>
-              Share Report
+              {t("shareReport")}
             </Text>
           </TouchableOpacity>
 
@@ -82,7 +86,7 @@ export default function ReportSavedModal({
             onPress={onClose}
           >
             <Text style={styles.doneButtonText}>
-              Done
+              {t("done")}
             </Text>
           </TouchableOpacity>
         </View>

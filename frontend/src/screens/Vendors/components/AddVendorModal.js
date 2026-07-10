@@ -10,11 +10,14 @@ import {
   Platform,
 } from "react-native";
 
+import { useLanguage } from "../../../context/LanguageContext";
+
 import styles from "../style";
 
 export default function AddVendorModal({ visible, onClose, onSave }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const { t } = useLanguage();
 
   const handleSave = () => {
     if (!name.trim()) return;
@@ -45,17 +48,17 @@ export default function AddVendorModal({ visible, onClose, onSave }) {
           keyboardShouldPersistTaps="handled"
         >
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Add Vendor</Text>
+            <Text style={styles.modalTitle}>{t("addVendor")}</Text>
 
             <TextInput
-              placeholder="Vendor Name"
+              placeholder={t("vendorName")}
               value={name}
               onChangeText={setName}
               style={styles.input}
             />
 
             <TextInput
-              placeholder="Phone Number (optional)"
+              placeholder={t("vendorPhoneNumberLabel")}
               value={phone}
               onChangeText={setPhone}
               style={styles.input}
@@ -64,11 +67,11 @@ export default function AddVendorModal({ visible, onClose, onSave }) {
 
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.cancelButton} onPress={handleClose}>
-                <Text style={styles.cancelText}>Cancel</Text>
+                <Text style={styles.cancelText}>{t("cancel")}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-                <Text style={styles.saveText}>Save</Text>
+                <Text style={styles.saveText}>{t("save")}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -6,6 +6,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { useLanguage } from "../../../context/LanguageContext";
+
 import styles from "../style";
 
 export default function VendorCard({
@@ -13,6 +15,7 @@ export default function VendorCard({
   onEdit,
   onDelete,
 }) {
+  const { t } = useLanguage();
   return (
     <View style={styles.card}>
       <View style={styles.cardLeft}>
@@ -39,7 +42,7 @@ export default function VendorCard({
           />
 
           <Text style={styles.buttonText}>
-            Edit
+            {t("edit")}
           </Text>
         </TouchableOpacity>
 
@@ -54,7 +57,7 @@ export default function VendorCard({
           />
 
           <Text style={styles.buttonText}>
-            Delete
+            {t("delete")}
           </Text>
         </TouchableOpacity>
       </View>

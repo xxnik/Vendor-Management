@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 const AuthContext = createContext();
 
+const TOKEN_KEY = "@ict_token";
 const USER_KEY = "@ict_user";
 
 export function AuthProvider({ children }) {
@@ -12,11 +13,20 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let isMounted = true;
 
-    const restoreUser = async () => {
+    const restoreSession = async () => {
       try {
-        const stored = await AsyncStorage.getItem(USER_KEY);
-        if (isMounted && stored) {
-          setUser(JSON.parse(stored));
+        const [storedToken, storedUser] = await Promise.all([
+          SecureStore.getItemAsync(TOKEN_KEY),
+          SecureStore.getItemAsync(USER_KEY),
+        ]);
+
+        if (isMounted) {
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
+          if (storedToken) {
+            // Token is available for axios interceptor via a shared module or context
+          }
         }
       } catch (e) {
         console.log("Auth restore error:", e);
@@ -27,22 +37,55 @@ export function AuthProvider({ children }) {
       }
     };
 
-    restoreUser();
+    restoreSession();
 
     return () => {
       isMounted = false;
     };
   }, []);
 
-  const setUserWithStorage = (userData) => {
+  const setUserWithStorage = async (userData) => {
     setUser(userData);
-    AsyncStorage.setItem(USER_KEY, JSON.stringify(userData)).catch((e) =>
-      console.log("Auth storage error:", e),
-    );
+    try {
+      await Promise.all([
+        SecureStore.setItemAsync(USER_KEY, JSON.stringify(userData)),
+      ]);
+    } catch (e) {
+      console.log("Auth storage error:", e);
+    }
+  };
+
+  const setToken = async (token) => {
+    try {
+      await SecureStore.setItemAsync(TOKEN_KEY, token);
+    } catch (e) {
+      console.log("Token storage error:", e);
+    }
+  };
+
+  const getToken = async () => {
+    try {
+      return await SecureStore.getItemAsync(TOKEN_KEY);
+    } catch (e) {
+      console.log("Token get error:", e);
+      return null;
+    }
+  };
+
+  const clearAuth = async () => {
+    try {
+      await Promise.all([
+        SecureStore.deleteItemAsync(TOKEN_KEY),
+        SecureStore.deleteItemAsync(USER_KEY),
+      ]);
+    } catch (e) {
+      console.log("Auth clear error:", e);
+    }
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, setUser: setUserWithStorage }}>
+    <AuthContext.Provider value={{ user, loading, setUser: setUserWithStorage, setToken, getToken, clearAuth }}>
       {children}
     </AuthContext.Provider>
   );

@@ -12,10 +12,13 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 import styles from "./style";
 
 export default function Signup() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +41,7 @@ export default function Signup() {
       console.log(response.data);
       Toast.show({
         type: "success",
-        text1: "Signup Successful",
+        text1: t("signupSuccess"),
         text2: response.data.message,
       });
 
@@ -50,7 +53,7 @@ export default function Signup() {
       console.log("Data:", error.response?.data);
       Toast.show({
         type: "error",
-        text1: error.response?.data?.message || "Signup Failed",
+        text1: error.response?.data?.message || t("signupFailed"),
       });
     }
   };
@@ -66,27 +69,27 @@ export default function Signup() {
       >
         <View style={styles.authPanel}>
           <View style={styles.headerBlock}>
-            <Text style={styles.appName}>Ice Cream Tracker</Text>
+            <Text style={styles.appName}>{t("appName")}</Text>
 
-            <Text style={styles.title}>Create Manager Account</Text>
+            <Text style={styles.title}>{t("signup")}</Text>
 
-            <Text style={styles.subtitle}>Create your account to continue</Text>
+            <Text style={styles.subtitle}>{t("accountCreated")}</Text>
           </View>
 
           <View style={styles.card}>
-            <Text style={styles.label}>Full Name</Text>
+            <Text style={styles.label}>{t("nameRequired")}</Text>
 
             <TextInput
-              placeholder="Enter full name"
+              placeholder={t("vendorName")}
               value={fullName}
               onChangeText={setFullName}
               style={styles.input}
             />
 
-            <Text style={styles.label}>Email</Text>
+            <Text style={styles.label}>{t("email")}</Text>
 
             <TextInput
-              placeholder="Enter email"
+              placeholder={t("email")}
               keyboardType="email-address"
               autoCapitalize="none"
               value={email}
@@ -94,30 +97,30 @@ export default function Signup() {
               style={styles.input}
             />
 
-            <Text style={styles.label}>Phone Number (Optional)</Text>
+            <Text style={styles.label}>{t("phoneRequired")}</Text>
 
             <TextInput
-              placeholder="Enter phone number"
+              placeholder={t("phone")}
               keyboardType="phone-pad"
               value={phone}
               onChangeText={setPhone}
               style={styles.input}
             />
 
-            <Text style={styles.label}>Password</Text>
+            <Text style={styles.label}>{t("password")}</Text>
 
             <TextInput
-              placeholder="Enter password"
+              placeholder={t("password")}
               secureTextEntry
               value={password}
               onChangeText={setPassword}
               style={styles.input}
             />
 
-            <Text style={styles.label}>Confirm Password</Text>
+            <Text style={styles.label}>{t("confirmPassword")}</Text>
 
             <TextInput
-              placeholder="Confirm password"
+              placeholder={t("confirmPassword")}
               secureTextEntry
               value={confirmPassword}
               onChangeText={setConfirmPassword}
@@ -128,14 +131,14 @@ export default function Signup() {
               style={styles.signupButton}
               onPress={handleSignup}
             >
-              <Text style={styles.signupButtonText}>Create Account</Text>
+              <Text style={styles.signupButtonText}>{t("signup")}</Text>
             </TouchableOpacity>
 
             <View style={styles.footer}>
-              <Text style={styles.footerText}>Already have an account?</Text>
+              <Text style={styles.footerText}>{t("signupPrompt")}</Text>
 
               <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
-                <Text style={styles.loginText}>Login</Text>
+                <Text style={styles.loginText}>{t("login")}</Text>
               </TouchableOpacity>
             </View>
           </View>

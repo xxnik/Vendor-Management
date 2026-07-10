@@ -11,6 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import { api } from "../../../config";
 import { useAuth } from "../../../context/AuthContext";
+import { useLanguage } from "../../../context/LanguageContext";
 
 import styles from "./style";
 
@@ -22,6 +23,7 @@ export default function VendorSelector({
   const [vendors, setVendors] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const fetchVendors = async () => {
     if (!user?.id) {
@@ -53,7 +55,7 @@ export default function VendorSelector({
     <>
       <View style={styles.section}>
         <Text style={styles.title}>
-          Vendor
+          {t("vendor")}
         </Text>
 
         <TouchableOpacity
@@ -63,7 +65,7 @@ export default function VendorSelector({
           <Text style={styles.inputText}>
             {selectedVendor
               ? selectedVendor.name
-              : "Select Vendor"}
+              : t("selectVendorPlaceholder")}
           </Text>
 
           <MaterialIcons
@@ -82,7 +84,7 @@ export default function VendorSelector({
         <View style={styles.modalBackground}>
           <View style={styles.modalCard}>
             <Text style={styles.modalTitle}>
-              Select Vendor
+              {t("selectVendor")}
             </Text>
 
             <FlatList
@@ -97,7 +99,7 @@ export default function VendorSelector({
                   </View>
                 ) : (
                   <Text style={styles.emptyText}>
-                    No vendors available.
+                    {t("noVendorsAvailable")}
                   </Text>
                 )
               }
@@ -133,7 +135,7 @@ export default function VendorSelector({
               <Text
                 style={styles.closeButtonText}
               >
-                Close
+                {t("close")}
               </Text>
             </TouchableOpacity>
           </View>

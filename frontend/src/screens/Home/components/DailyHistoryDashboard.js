@@ -7,6 +7,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { formatDisplayDate } from "../../../utils/date";
+import { useLanguage } from "../../../context/LanguageContext";
 import InitialStockCard from "./InitialStockCard";
 import LeftoverStockCard from "./LeftoverStockCard";
 import SummaryCard from "./SummaryCard";
@@ -17,6 +18,7 @@ export default function DailyHistoryDashboard({
   reports,
   loading = false,
 }) {
+  const { t } = useLanguage();
   return (
     <>
       <View style={styles.section}>
@@ -28,16 +30,16 @@ export default function DailyHistoryDashboard({
           />
 
           <Text style={styles.summaryTitle}>
-            History Dashboard
+            {t("history")}
           </Text>
         </View>
 
         <Text style={styles.infoText}>
-          Date : {formatDisplayDate(date)}
+          {t("date")} : {formatDisplayDate(date)}
         </Text>
 
         <Text style={styles.historyBadge}>
-          Read-only daily records
+          {t("readOnlyDailyRecords")}
         </Text>
       </View>
 
@@ -46,7 +48,7 @@ export default function DailyHistoryDashboard({
           <ActivityIndicator size="small" color="#EC5AA7" />
         </View>
       ) : reports.length === 0 ? (
-        <Text style={styles.emptyText}>No reports found for this date.</Text>
+        <Text style={styles.emptyText}>{t("noReportsFoundForThisDate")}</Text>
       ) : (
         reports.map((report) => (
           <View key={report.vendor.id}>

@@ -3,6 +3,7 @@ import Toast from "react-native-toast-message";
 import { useEffect } from "react";
 import { AuthProvider } from "../src/context/AuthContext";
 import { NavbarProvider } from "../src/context/NavbarContext";
+import { LanguageProvider } from "../src/context/LanguageContext";
 import { pingBackend } from "../src/config";
 
 export default function RootLayout() {
@@ -13,12 +14,14 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <NavbarProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(tabs)" />
-        </Stack>
+        <LanguageProvider>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(tabs)" />
+          </Stack>
 
-        <Toast />
+          <Toast />
+        </LanguageProvider>
       </NavbarProvider>
     </AuthProvider>
   );

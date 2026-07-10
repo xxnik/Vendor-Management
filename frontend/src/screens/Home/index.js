@@ -19,6 +19,7 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 import { useNavbar } from "../../context/NavbarContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { api } from "../../config";
 
 export default function Home() {
@@ -30,18 +31,13 @@ export default function Home() {
 
   const [leftoverStock, setLeftoverStock] = useState({});
 
-  const [frozenInitialStock, setFrozenInitialStock] = useState({});
-
-  const [frozenLeftoverStock, setFrozenLeftoverStock] = useState({});
-
-  const [leftoverStockSaved, setLeftoverStockSaved] = useState(false);
-
   const [historyReports, setHistoryReports] = useState([]);
 
   const [loadingReports, setLoadingReports] = useState(false);
 
   const { user } = useAuth();
   const { setNavbarTitle } = useNavbar();
+  const { t } = useLanguage();
 
   const isHistoryDate = isPastDate(selectedDate);
 
@@ -101,21 +97,18 @@ export default function Home() {
           const existingReport = response.data.reports.find(
             (report) => report.vendorId === selectedVendor.id,
           );
-          setLeftoverStockSaved(!!existingReport);
           if (existingReport) {
-            setFrozenInitialStock(existingReport.initialStock || {});
-            setFrozenLeftoverStock(existingReport.leftoverStock || {});
+            setInitialStock(existingReport.initialStock || {});
+            setLeftoverStock(existingReport.leftoverStock || {});
           }
         } else {
-          setLeftoverStockSaved(false);
-          setFrozenInitialStock({});
-          setFrozenLeftoverStock({});
+          setInitialStock({});
+          setLeftoverStock({});
         }
       } catch (error) {
         console.log("Error checking existing report:", error.response?.data || error.message);
-        setLeftoverStockSaved(false);
-        setFrozenInitialStock({});
-        setFrozenLeftoverStock({});
+        setInitialStock({});
+        setLeftoverStock({});
       }
     };
 
@@ -140,18 +133,14 @@ export default function Home() {
     setSelectedVendor(null);
     setInitialStock({});
     setLeftoverStock({});
-    setFrozenInitialStock({});
-    setFrozenLeftoverStock({});
-    setLeftoverStockSaved(false);
   };
 
   const handleInitialStockSaved = (savedStock) => {
-    setFrozenInitialStock(savedStock);
+    setInitialStock(savedStock);
   };
 
   const handleLeftoverStockSaved = (savedStock) => {
-    setFrozenLeftoverStock(savedStock);
-    setLeftoverStockSaved(true);
+    setLeftoverStock(savedStock);
   };
 
   return (
@@ -181,9 +170,6 @@ export default function Home() {
                   setSelectedVendor(vendor);
                   setInitialStock({});
                   setLeftoverStock({});
-                  setFrozenInitialStock({});
-                  setFrozenLeftoverStock({});
-                  setLeftoverStockSaved(false);
                 }}
               />
             </View>
@@ -200,15 +186,15 @@ export default function Home() {
                   borderColor: "#EC5AA7",
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "700",
-                    color: "#2C3E50",
-                  }}
-                >
-                  Vendor: {selectedVendor.name}
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "700",
+                      color: "#2C3E50",
+                    }}
+                  >
+                    {t("vendor")}: {selectedVendor.name}
+                  </Text>
               </View>
             )}
 
@@ -238,13 +224,13 @@ export default function Home() {
                 />
               )}
 
-              {selectedVendor && leftoverStockSaved && (
+              {selectedVendor && (
                 <SummaryCard
                   key={`summary-${selectedVendor.id}`}
                   vendor={selectedVendor}
                   date={formatDisplayDate(selectedDate)}
-                  initialStock={frozenInitialStock}
-                  leftoverStock={frozenLeftoverStock}
+                  initialStock={initialStock}
+                  leftoverStock={leftoverStock}
                   commission={30}
                 />
               )}

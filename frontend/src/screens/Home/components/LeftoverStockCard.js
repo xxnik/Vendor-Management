@@ -12,6 +12,7 @@ import { toDateKey } from "../../../utils/date";
 import { api } from "../../../config";
 import Toast from "react-native-toast-message";
 
+import { useLanguage } from "../../../context/LanguageContext";
 import styles from "./style";
 
 export default function LeftoverStockCard({
@@ -24,6 +25,7 @@ export default function LeftoverStockCard({
   userId,
   readOnly = false,
 }) {
+  const { t } = useLanguage();
   const [iceCreams, setIceCreams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -145,7 +147,7 @@ export default function LeftoverStockCard({
 
       Toast?.show?.({
         type: "success",
-        text1: "Leftover stock saved",
+        text1: t("leftoverStockSaved"),
         position: "top",
         visibilityTime: 2500,
       });
@@ -168,7 +170,7 @@ export default function LeftoverStockCard({
 
           Toast?.show?.({
             type: "success",
-            text1: "Report saved to database",
+            text1: t("reportSaved"),
             position: "top",
             visibilityTime: 2500,
           });
@@ -178,7 +180,7 @@ export default function LeftoverStockCard({
           console.log("Report Save Error:", error.response?.data || error.message);
           Toast?.show?.({
             type: "error",
-            text1: "Report save failed",
+            text1: t("reportSaveFailed"),
             text2: "Could not save report. Try again.",
             position: "top",
             visibilityTime: 2500,
@@ -189,7 +191,7 @@ export default function LeftoverStockCard({
       console.log("Save Error:", error.response?.data || error.message);
       Toast?.show?.({
         type: "error",
-        text1: "Save failed",
+        text1: t("saveFailed"),
         text2: "Could not save leftover stock. Try again.",
         position: "top",
         visibilityTime: 2500,
@@ -202,11 +204,11 @@ export default function LeftoverStockCard({
   return (
     <View style={styles.leftoverStockCard}>
       <Text style={styles.leftoverStockTitle}>
-        Update Leftover Stock
+        {t("updateLeftoverStock")}
       </Text>
 
       <Text style={styles.leftoverStockSubtitle}>
-        For vendor: {vendor.name}. Record quantities remaining.
+        {t("recordQuantitiesRemaining")}
       </Text>
 
       {loading ? (
@@ -215,7 +217,7 @@ export default function LeftoverStockCard({
         </View>
       ) : availableIceCreams.length === 0 ? (
         <Text style={styles.leftoverStockEmptyText}>
-          {iceCreams.length === 0 ? "No ice creams available." : "No ice cream with initial stock."}
+          {iceCreams.length === 0 ? t("noIceCreams") : t("noData")}
         </Text>
       ) : (
         availableIceCreams.map((item, index) => (
@@ -226,7 +228,7 @@ export default function LeftoverStockCard({
               index > 0 && styles.leftoverStockItemWithBorder,
             ]}
           >
-            <View style={styles.leftoverStockItemHeader}>
+            <View style={styles.leftoverStockItemRow}>
               <View style={styles.leftoverStockNameWrap}>
                 <MaterialCommunityIcons
                   name={index % 2 === 0 ? "ice-cream" : "cupcake"}
@@ -239,25 +241,25 @@ export default function LeftoverStockCard({
                 </Text>
               </View>
 
+              {readOnly ? (
+                <Text style={styles.leftoverStockReadOnlyValue}>
+                  {stock[item.id] || 0}
+                </Text>
+              ) : (
+                <TextInput
+                  value={stock[item.id] || ""}
+                  keyboardType="numeric"
+                  onChangeText={(text) => handleChange(item.id, text)}
+                  placeholder={t("quantity")}
+                  placeholderTextColor="#6B7B8C"
+                  style={styles.leftoverStockQtyInput}
+                />
+              )}
+
               <Text style={styles.leftoverStockPrice}>
-                Price (₹): {item.price}
+                ₹ {item.price}
               </Text>
             </View>
-
-            {readOnly ? (
-              <Text style={styles.leftoverStockReadOnlyValue}>
-                {stock[item.id] || 0}
-              </Text>
-            ) : (
-              <TextInput
-                value={stock[item.id] || ""}
-                keyboardType="numeric"
-                onChangeText={(text) => handleChange(item.id, text)}
-                placeholder="Enter quantity"
-                placeholderTextColor="#6B7B8C"
-                style={styles.leftoverStockQtyInput}
-              />
-            )}
           </View>
         ))
       )}
@@ -275,7 +277,7 @@ export default function LeftoverStockCard({
           />
 
           <Text style={styles.leftoverStockButtonText}>
-            {saving ? (hasSaved ? "Updating..." : "Saving...") : (hasSaved ? "Update" : "Save")}
+            {saving ? (hasSaved ? "Updating..." : "Saving...") : (hasSaved ? t("update") : t("save"))}
           </Text>
         </TouchableOpacity>
       )}

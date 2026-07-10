@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavbar } from "../../context/NavbarContext";
+import { useLanguage } from "../../context/LanguageContext";
 import Toast from "react-native-toast-message";
 import {
   View,
@@ -18,9 +19,10 @@ import styles from "./style";
 export default function Navbar({ onAddVendor }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, setUser } = useAuth();
+  const { user, clearAuth } = useAuth();
   const { navbarTitle } = useNavbar();
   const { width } = useWindowDimensions();
+  const { t } = useLanguage();
 
   const isMobile = width < 768;
 
@@ -35,15 +37,15 @@ export default function Navbar({ onAddVendor }) {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [profileVisible, setProfileVisible] = useState(false);
 
-  const handleLogout = () => {
-    setUser(null);
+  const handleLogout = async () => {
+    await clearAuth();
     setDrawerVisible(false);
     setProfileVisible(false);
 
     Toast.show({
       type: "success",
-      text1: "Logged Out Successfully",
-      text2: "You have been signed out.",
+      text1: t("loggedOutSuccessfully"),
+      text2: t("youHaveBeenSignedOut"),
     });
 
     setTimeout(() => {
@@ -53,25 +55,30 @@ export default function Navbar({ onAddVendor }) {
 
   const menus = [
     {
-      title: "Home",
+      title: t("home"),
       icon: "home",
       route: "/(tabs)/home",
     },
     {
-      title: "Ice Cream",
+      title: t("iceCream"),
       icon: "ice-cream",
       route: "/(tabs)/icecream",
       community: true,
     },
     {
-      title: "Vendors",
+      title: t("vendors"),
       icon: "storefront",
       route: "/(tabs)/vendors",
     },
     {
-      title: "History",
+      title: t("history"),
       icon: "history",
       route: "/(tabs)/history",
+    },
+    {
+      title: t("settings"),
+      icon: "settings",
+      route: "/(tabs)/settings",
     },
   ];
 
@@ -163,13 +170,26 @@ export default function Navbar({ onAddVendor }) {
             <View style={styles.divider} />
 
             {isLoggedIn ? (
-              <TouchableOpacity
-                style={styles.drawerItem}
-                onPress={handleLogout}
-              >
-                <MaterialIcons name="logout" size={22} color="red" />
-                <Text style={styles.drawerText}>Logout</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity
+                  style={styles.drawerItem}
+                  onPress={handleLogout}
+                >
+                  <MaterialIcons name="logout" size={22} color="red" />
+                  <Text style={styles.drawerText}>{t("logout")}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.drawerItem}
+                  onPress={() => {
+                    router.push("/(tabs)/settings");
+                    setDrawerVisible(false);
+                  }}
+                >
+                  <MaterialIcons name="settings" size={22} color="#EC5AA7" />
+                  <Text style={styles.drawerText}>{t("settings")}</Text>
+                </TouchableOpacity>
+              </>
             ) : (
               <>
                 <TouchableOpacity
@@ -180,7 +200,7 @@ export default function Navbar({ onAddVendor }) {
                   }}
                 >
                   <MaterialIcons name="login" size={22} color="#EC5AA7" />
-                  <Text style={styles.drawerText}>Login</Text>
+                  <Text style={styles.drawerText}>{t("login")}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -191,7 +211,7 @@ export default function Navbar({ onAddVendor }) {
                   }}
                 >
                   <MaterialIcons name="person-add" size={22} color="#EC5AA7" />
-                  <Text style={styles.drawerText}>Sign Up</Text>
+                  <Text style={styles.drawerText}>{t("signup")}</Text>
                 </TouchableOpacity>
               </>
             )}
@@ -279,10 +299,21 @@ export default function Navbar({ onAddVendor }) {
             <View style={styles.dropdown}>
               <TouchableOpacity
                 style={styles.dropdownItem}
+                onPress={() => {
+                  router.push("/(tabs)/settings");
+                  setProfileVisible(false);
+                }}
+              >
+                <MaterialIcons name="settings" size={20} color="#EC5AA7" />
+                <Text style={styles.dropdownText}>{t("settings")}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.dropdownItem}
                 onPress={handleLogout}
               >
                 <MaterialIcons name="logout" size={20} color="red" />
-                <Text style={styles.dropdownText}>Logout</Text>
+                <Text style={styles.dropdownText}>{t("logout")}</Text>
               </TouchableOpacity>
             </View>
           )}

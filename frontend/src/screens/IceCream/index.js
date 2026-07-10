@@ -17,6 +17,7 @@ import { useFocusEffect, useRouter, usePathname } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { api } from "../../config";
 
 export default function IceCream() {
@@ -34,6 +35,7 @@ export default function IceCream() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const fetchIceCreams = useCallback(async () => {
     if (!user?.id) {
@@ -79,7 +81,7 @@ export default function IceCream() {
     if (!user?.id) {
       Toast.show({
         type: "error",
-        text1: "Login required",
+        text1: t("loginRequired"),
         text2: "Please login to add ice cream.",
         position: "top",
         visibilityTime: 2500,
@@ -124,7 +126,7 @@ export default function IceCream() {
         );
         Toast.show({
           type: "success",
-          text1: "Ice cream Updated",
+          text1: t("iceCreamUpdated"),
           text2: `${updatedItem.name} was Updated successfully.`,
           position: "top",
           visibilityTime: 3000,
@@ -165,7 +167,7 @@ export default function IceCream() {
     <MainLayout>
       <ScreenContainer>
         <View style={styles.header}>
-          <Text style={styles.title}>🍦 Ice Cream Types</Text>
+          <Text style={styles.title}>🍦 {t("iceCreamTypes")}</Text>
 
           {!user?.id ? (
             <TouchableOpacity
@@ -179,7 +181,7 @@ export default function IceCream() {
                 })
               }
             >
-              <Text style={styles.loginPromptText}>Login to add ice cream</Text>
+              <Text style={styles.loginPromptText}>{t("loginToAddIceCream")}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -188,7 +190,7 @@ export default function IceCream() {
             >
               <MaterialIcons name="add" size={20} color="#fff" />
 
-              <Text style={styles.addText}>Add Ice Cream</Text>
+              <Text style={styles.addText}>{t("addIceCream")}</Text>
             </TouchableOpacity>
           )}
         </View>

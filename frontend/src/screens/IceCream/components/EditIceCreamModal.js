@@ -10,6 +10,8 @@ import {
   Platform,
 } from "react-native";
 
+import { useLanguage } from "../../../context/LanguageContext";
+
 import styles from "../style";
 
 export default function EditIceCreamModal({
@@ -20,6 +22,7 @@ export default function EditIceCreamModal({
 }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (item) {
@@ -56,52 +59,52 @@ export default function EditIceCreamModal({
         >
           <View style={styles.modalContainer}>
 
-          <Text style={styles.modalTitle}>
-            Update Ice Cream
-          </Text>
+            <Text style={styles.modalTitle}>
+              {t("updateIceCream")}
+            </Text>
 
-          <Text style={styles.label}>
-            Ice Cream Name
-          </Text>
+            <Text style={styles.label}>
+              {t("iceCreamName")}
+            </Text>
 
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder="Enter name"
-          />
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              placeholder={t("enterName")}
+            />
 
-          <Text style={styles.label}>
-            Price
-          </Text>
+            <Text style={styles.label}>
+              {t("iceCreamPrice")}
+            </Text>
 
-          <TextInput
-            style={styles.input}
-            value={price}
-            onChangeText={setPrice}
-            keyboardType="numeric"
-            placeholder="Enter price"
-          />
+            <TextInput
+              style={styles.input}
+              value={price}
+              onChangeText={setPrice}
+              keyboardType="numeric"
+              placeholder={t("enterPrice")}
+            />
 
-          <View style={styles.modalButtonContainer}>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={onClose}
-            >
-              <Text style={styles.cancelText}>
-                Cancel
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={onClose}
+              >
+                <Text style={styles.cancelText}>
+                  {t("cancel")}
+                </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.saveButton}
-              onPress={handleUpdate}
-            >
-              <Text style={styles.saveText}>
-                Update
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={styles.saveButton}
+                onPress={handleUpdate}
+              >
+                <Text style={styles.saveText}>
+                  {t("update")}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

@@ -11,6 +11,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { formatDisplayDate, toDateKey } from "../../utils/date";
 import Toast from "react-native-toast-message";
 import { api } from "../../config";
@@ -41,6 +42,7 @@ export default function History() {
   const [loading, setLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -119,7 +121,7 @@ export default function History() {
     if (!user?.id) {
       Toast.show({
         type: "error",
-        text1: "Login required",
+        text1: t("loginRequired"),
         position: "top",
         visibilityTime: 2500,
       });
@@ -346,7 +348,7 @@ export default function History() {
       <ScreenContainer>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title}>History</Text>
+            <Text style={styles.title}>{t("history")}</Text>
           </View>
 
           <View style={styles.dateRangeContainer}>
@@ -356,7 +358,7 @@ export default function History() {
             >
               <MaterialIcons name="calendar-today" size={20} color="#EC5AA7" />
               <Text style={styles.dateInputText}>
-                {startDate || "From Date"}
+                {startDate || t("fromDate")}
               </Text>
             </TouchableOpacity>
 
@@ -368,7 +370,7 @@ export default function History() {
             >
               <MaterialIcons name="calendar-today" size={20} color="#EC5AA7" />
               <Text style={styles.dateInputText}>
-                {endDate || "To Date"}
+                {endDate || t("toDate")}
               </Text>
             </TouchableOpacity>
 
@@ -379,7 +381,7 @@ export default function History() {
             >
               <MaterialIcons name="search" size={20} color="#fff" />
               <Text style={styles.searchButtonText}>
-                {loading ? "Loading..." : "Search"}
+                {loading ? t("loading") : t("search")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -393,9 +395,9 @@ export default function History() {
           {!loading && hasSearched && reportsByVendor.length === 0 && (
             <View style={styles.noDataContainer}>
               <MaterialIcons name="history" size={60} color="#D1D5DB" />
-              <Text style={styles.noDataText}>No history found for this date range</Text>
+              <Text style={styles.noDataText}>{t("noHistoryFound")}</Text>
               <Text style={styles.noDataSubtext}>
-                Reports will appear here after vendors submit their stock data
+                {t("selectDateRange")}
               </Text>
             </View>
           )}
@@ -403,16 +405,16 @@ export default function History() {
           {!loading && hasSearched && reportsByVendor.length > 0 && (
             <>
               <View style={styles.overallCard}>
-                <Text style={styles.overallTitle}>Overall Summary</Text>
+                <Text style={styles.overallTitle}>{t("overallSummary")}</Text>
                 <View style={styles.overallRow}>
                   <View style={styles.overallItem}>
-                    <Text style={styles.overallLabel}>Total Vendors</Text>
+                    <Text style={styles.overallLabel}>{t("totalVendors")}</Text>
                     <Text style={styles.overallValue}>
                       {reportsByVendor.length}
                     </Text>
                   </View>
                   <View style={styles.overallItem}>
-                    <Text style={styles.overallLabel}>Total Reports</Text>
+                    <Text style={styles.overallLabel}>{t("totalReports")}</Text>
                     <Text style={styles.overallValue}>
                       {reportsByVendor.reduce((sum, v) => sum + v.reports.length, 0)}
                     </Text>
@@ -420,19 +422,19 @@ export default function History() {
                 </View>
                 <View style={styles.overallRow}>
                   <View style={styles.overallItem}>
-                    <Text style={styles.overallLabel}>Total Sale</Text>
+                    <Text style={styles.overallLabel}>{t("totalSale")}</Text>
                     <Text style={[styles.overallValue, { color: "#10B981" }]}>
                       ₹{overallTotals.totalSale.toFixed(2)}
                     </Text>
                   </View>
                   <View style={styles.overallItem}>
-                    <Text style={styles.overallLabel}>Total Commission</Text>
+                    <Text style={styles.overallLabel}>{t("vendorCommission")}</Text>
                     <Text style={[styles.overallValue, { color: "#F59E0B" }]}>
                       ₹{overallTotals.totalVendorCommission.toFixed(2)}
                     </Text>
                   </View>
                   <View style={styles.overallItem}>
-                    <Text style={styles.overallLabel}>Total Profit</Text>
+                    <Text style={styles.overallLabel}>{t("companyProfit")}</Text>
                     <Text style={[styles.overallValue, { color: "#EC5AA7" }]}>
                       ₹{overallTotals.totalCompanyProfit.toFixed(2)}
                     </Text>
@@ -454,10 +456,10 @@ export default function History() {
             <View style={styles.emptyContainer}>
               <MaterialIcons name="search" size={60} color="#D1D5DB" />
               <Text style={styles.emptyText}>
-                Select a date range to view history
+                {t("selectDateRange")}
               </Text>
               <Text style={styles.emptySubtext}>
-                Choose start and end dates, then tap Search
+                {t("selectDateRange")}
               </Text>
             </View>
           )}

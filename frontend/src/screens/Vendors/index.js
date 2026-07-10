@@ -11,6 +11,7 @@ import EditVendorModal from "./components/EditVendormodal";
 import DeleteVendorModal from "./components/DeleteVendorModal";
 
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { api } from "../../config";
 
 import styles from "./style";
@@ -35,6 +36,7 @@ export default function Vendors() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   const isLoggedIn = Boolean(user);
 
@@ -62,7 +64,7 @@ export default function Vendors() {
     if (!user?.id) {
       Toast.show({
         type: "error",
-        text1: "Login required",
+        text1: t("loginRequired"),
         text2: "Please login to add ice cream.",
         position: "top",
         visibilityTime: 2500,
@@ -117,13 +119,13 @@ export default function Vendors() {
       });
     } catch (error) {
       console.log("Update Error:", error.response?.data || error.message);
-      Toast.show({
-        type: "error",
-        text1: "Update failed",
-        text2: "Could not update vendor. Try again.",
-        position: "top",
-        visibilityTime: 2500,
-      });
+        Toast.show({
+          type: "error",
+          text1: t("updateFailed"),
+          text2: "Could not update vendor. Try again.",
+          position: "top",
+          visibilityTime: 2500,
+        });
     }
   };
 
@@ -180,7 +182,7 @@ export default function Vendors() {
     >
       <ScreenContainer>
         <View style={styles.header}>
-          <Text style={styles.title}>Vendors</Text>
+          <Text style={styles.title}>{t("vendors")}</Text>
 
           {!isLoggedIn ? (
             <TouchableOpacity
@@ -192,7 +194,7 @@ export default function Vendors() {
                 })
               }
             >
-              <Text style={styles.loginPromptText}>Login to add vendor</Text>
+              <Text style={styles.loginPromptText}>{t("loginToAddVendor")}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -201,7 +203,7 @@ export default function Vendors() {
             >
               <MaterialIcons name="add" size={20} color="#fff" />
 
-              <Text style={styles.addText}>Add Vendor</Text>
+              <Text style={styles.addText}>{t("addVendor")}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -211,7 +213,7 @@ export default function Vendors() {
             <ActivityIndicator size="large" color="#EC5AA7" />
           </View>
         ) : vendorList.length === 0 ? (
-          <Text style={styles.emptyText}>No vendors available.</Text>
+          <Text style={styles.emptyText}>{t("noVendors")}</Text>
         ) : (
           vendorList.map((vendor) => (
             <View key={vendor.id} style={styles.vendorCard}>

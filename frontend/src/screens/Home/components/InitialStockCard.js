@@ -12,6 +12,7 @@ import { api } from "../../../config";
 import { toDateKey } from "../../../utils/date";
 import Toast from "react-native-toast-message";
 
+import { useLanguage } from "../../../context/LanguageContext";
 import styles from "./style";
 
 export default function InitialStockCard({
@@ -23,6 +24,7 @@ export default function InitialStockCard({
   onSaved,
   readOnly = false,
 }) {
+  const { t } = useLanguage();
   const [iceCreams, setIceCreams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -110,7 +112,7 @@ export default function InitialStockCard({
       );
       Toast?.show?.({
         type: "success",
-        text1: "Initial stock saved",
+        text1: t("stockSaved"),
         position: "top",
         visibilityTime: 2500,
       });
@@ -120,7 +122,7 @@ export default function InitialStockCard({
       console.log("Save Error:", error.response?.data || error.message);
       Toast?.show?.({
         type: "error",
-        text1: "Save failed",
+        text1: t("saveFailed"),
         text2: "Could not save initial stock. Try again.",
         position: "top",
         visibilityTime: 2500,
@@ -133,11 +135,11 @@ export default function InitialStockCard({
   return (
     <View style={styles.initialStockCard}>
       <Text style={styles.initialStockTitle}>
-        Initial Stock
+        {t("initialStock")}
       </Text>
 
       <Text style={styles.initialStockSubtitle}>
-        For vendor: {vendor.name}. Record quantities provided.
+        {t("recordQuantities")}
       </Text>
 
       {loading ? (
@@ -145,18 +147,21 @@ export default function InitialStockCard({
           <ActivityIndicator size="small" color="#EC5AA7" />
         </View>
       ) : iceCreams.length === 0 ? (
-        <Text style={styles.emptyText}>No ice creams available.</Text>
+        <Text style={styles.emptyText}>{t("noIceCreams")}</Text>
       ) : (
-        iceCreams.map((item) => (
+        iceCreams.map((item, index) => (
           <View
             key={item.id}
-            style={styles.initialStockItem}
+            style={[
+              styles.initialStockItem,
+              index > 0 && styles.initialStockItemWithBorder,
+            ]}
           >
-            <View style={styles.initialStockItemHeader}>
+            <View style={styles.initialStockItemRow}>
               <View style={styles.initialStockNameWrap}>
                 <MaterialCommunityIcons
                   name="cup"
-                  size={23}
+                  size={22}
                   color="#FF5BA8"
                 />
 
@@ -165,25 +170,25 @@ export default function InitialStockCard({
                 </Text>
               </View>
 
+              {readOnly ? (
+                <Text style={styles.initialStockReadOnlyValue}>
+                  {stock[item.id] || 0}
+                </Text>
+              ) : (
+                <TextInput
+                  value={stock[item.id] || ""}
+                  keyboardType="numeric"
+                  onChangeText={(text) => handleChange(item.id, text)}
+                  placeholder={t("quantity")}
+                  placeholderTextColor="#6B7B8C"
+                  style={styles.initialStockQtyInput}
+                />
+              )}
+
               <Text style={styles.initialStockPrice}>
-                Price (₹): {item.price}
+                ₹ {item.price}
               </Text>
             </View>
-
-            {readOnly ? (
-              <Text style={styles.initialStockReadOnlyValue}>
-                {stock[item.id] || 0}
-              </Text>
-            ) : (
-              <TextInput
-                value={stock[item.id] || ""}
-                keyboardType="numeric"
-                onChangeText={(text) => handleChange(item.id, text)}
-                placeholder="Enter quantity"
-                placeholderTextColor="#6B7B8C"
-                style={styles.initialStockQtyInput}
-              />
-            )}
           </View>
         ))
       )}
@@ -201,7 +206,7 @@ export default function InitialStockCard({
           />
 
           <Text style={styles.initialStockButtonText}>
-            {saving ? (hasSaved ? "Updating..." : "Saving...") : (hasSaved ? "Update" : "Save")}
+            {saving ? (hasSaved ? "Updating..." : "Saving...") : (hasSaved ? t("update") : t("save"))}
           </Text>
         </TouchableOpacity>
       )}

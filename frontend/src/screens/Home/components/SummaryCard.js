@@ -8,6 +8,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { api } from "../../../config";
+import { useLanguage } from "../../../context/LanguageContext";
 
 import styles from "./style";
 
@@ -18,6 +19,7 @@ export default function SummaryCard({
   leftoverStock,
   commission = 30,
 }) {
+  const { t } = useLanguage();
   const [iceCreams, setIceCreams] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -84,16 +86,16 @@ export default function SummaryCard({
         />
 
         <Text style={styles.summaryTitle}>
-          Daily Sales Summary
+          {t("dailySalesSummary")}
         </Text>
       </View>
 
       <Text style={styles.infoText}>
-        Date : {date}
+        {t("date")} : {date}
       </Text>
 
       <Text style={styles.infoText}>
-        Vendor : {vendor?.name}
+        {t("vendor")} : {vendor?.name}
       </Text>
 
       {loading ? (
@@ -107,41 +109,41 @@ export default function SummaryCard({
         >
           <View style={styles.table}>
             <View style={styles.tableHeader}>
-              <Text
-                style={[
-                  styles.headerText,
-                  { flex: 2 },
-                ]}
-              >
-                Item
-              </Text>
+                <Text
+                  style={[
+                    styles.headerText,
+                    { flex: 2 },
+                  ]}
+                >
+                  {t("item")}
+                </Text>
 
-              <Text
-                style={[
-                  styles.headerText,
-                  { flex: 1 },
-                ]}
-              >
-                Sold
-              </Text>
+                <Text
+                  style={[
+                    styles.headerText,
+                    { flex: 1 },
+                  ]}
+                >
+                  {t("sold")}
+                </Text>
 
-              <Text
-                style={[
-                  styles.headerText,
-                  { flex: 2 },
-                ]}
-              >
-                Calculation
-              </Text>
+                <Text
+                  style={[
+                    styles.headerText,
+                    { flex: 2 },
+                  ]}
+                >
+                  {t("calculation")}
+                </Text>
 
-              <Text
-                style={[
-                  styles.headerText,
-                  { flex: 1 },
-                ]}
-              >
-                Amount
-              </Text>
+                <Text
+                  style={[
+                    styles.headerText,
+                    { flex: 1 },
+                  ]}
+                >
+                  {t("amount")}
+                </Text>
             </View>
 
             {items.map((item) => (
@@ -192,17 +194,17 @@ export default function SummaryCard({
 
       <View style={styles.totalCard}>
         <Text style={styles.totalLabel}>
-          Total Sale
+          {t("totalSale")}
         </Text>
 
         <Text style={styles.totalValue}>
-          ₹{totalSale}
+          ₹{totalSale.toFixed(2)}
         </Text>
       </View>
 
       <View style={styles.totalCard}>
         <Text style={styles.totalLabel}>
-          Vendor Commission ({commission}%)
+          {t("vendorCommission")} ({commission}%)
         </Text>
 
         <Text style={styles.totalValue}>
@@ -212,7 +214,7 @@ export default function SummaryCard({
 
       <View style={styles.totalCard}>
         <Text style={styles.totalLabel}>
-          Company Profit
+          {t("companyProfit")}
         </Text>
 
         <Text style={styles.totalValue}>

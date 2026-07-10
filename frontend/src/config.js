@@ -1,10 +1,29 @@
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 export const API_BASE_URL = "http://localhost:5000";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
+  withCredentials: true,
 });
+
+api.interceptors.request.use(
+  async (config) => {
+    try {
+      const token = await SecureStore.getItemAsync("@ict_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch (e) {
+      console.log("Token attach error:", e);
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const pingBackend = async () => {
   try {
@@ -13,5 +32,3 @@ export const pingBackend = async () => {
     console.log("Ping failed:", error.message);
   }
 };
-// "http://localhost:5000"
-// "https://vendor-management-xd2c.onrender.com"
