@@ -20,6 +20,13 @@ export default StyleSheet.create({
     alignSelf: "center",
   },
 
+  logoImage: {
+    width: 110,
+    height: 110,
+    alignSelf: "center",
+    marginBottom: 18,
+  },
+
   logo: {
     fontSize: 52,
     fontWeight: "800",

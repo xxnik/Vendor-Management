@@ -5,6 +5,8 @@ import Toast from "react-native-toast-message";
 import { api } from "../../config";
 
 import {
+  ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -22,6 +24,7 @@ export default function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setUser, setToken } = useAuth();
   const { t } = useLanguage();
 
@@ -48,6 +51,7 @@ export default function Login() {
         return;
       }
 
+    setLoading(true);
     try {
       const response = await api.post("/api/auth/login", {
         email: trimmedEmail,
@@ -80,6 +84,8 @@ export default function Login() {
           data: error.response?.data,
         }),
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,6 +99,12 @@ export default function Login() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.authPanel}>
+          <Image
+            source={require("../../../assets/images/splash-icon.png")}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
+
           <View style={styles.headerBlock}>
             <Text style={styles.appName}>{t("appName")}</Text>
 
@@ -123,8 +135,16 @@ export default function Login() {
               style={styles.input}
             />
 
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>{t("login")}</Text>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleLogin}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Text style={styles.loginButtonText}>{t("login")}</Text>
+              )}
             </TouchableOpacity>
 
             <View style={styles.footer}>
