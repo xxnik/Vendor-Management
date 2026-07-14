@@ -8,6 +8,12 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+let routerRef = null;
+
+export const setRouter = (router) => {
+  routerRef = router;
+};
+
 api.interceptors.request.use(
   async (config) => {
     try {
@@ -21,6 +27,27 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const failedUrl = error.config?.url || "";
+    if (
+      error.response?.status === 401 &&
+      routerRef &&
+      failedUrl.includes("/api/auth/me")
+    ) {
+      try {
+        await SecureStore.deleteItemAsync("@ict_token");
+        await SecureStore.deleteItemAsync("@ict_user");
+      } catch (e) {
+        console.log("Token clear error:", e);
+      }
+      routerRef.replace("/(auth)/login");
+    }
     return Promise.reject(error);
   }
 );

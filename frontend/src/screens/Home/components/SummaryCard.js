@@ -57,15 +57,18 @@ export default function SummaryCard({
 
     const left = Number(leftoverStock[item.id] || 0);
 
-    const sold = initial - left;
+    const sold = Math.max(initial - left, 0);
 
-    const amount = sold * item.price;
+    const price = Number(item.price || 0);
+
+    const amount = sold * price;
 
     totalSale += amount;
 
     return {
       ...item,
       sold,
+      price,
       amount,
     };
   });
@@ -112,6 +115,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.headerText,
+                    styles.colItem,
                     { flex: 2 },
                   ]}
                 >
@@ -121,6 +125,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.headerText,
+                    styles.colNum,
                     { flex: 1 },
                   ]}
                 >
@@ -130,6 +135,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.headerText,
+                    styles.colNum,
                     { flex: 2 },
                   ]}
                 >
@@ -139,6 +145,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.headerText,
+                    styles.colNum,
                     { flex: 1 },
                   ]}
                 >
@@ -154,6 +161,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.rowText,
+                    styles.colItem,
                     { flex: 2 },
                   ]}
                 >
@@ -163,6 +171,7 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.rowText,
+                    styles.colNum,
                     { flex: 1 },
                   ]}
                 >
@@ -172,19 +181,21 @@ export default function SummaryCard({
                 <Text
                   style={[
                     styles.rowText,
+                    styles.colNum,
                     { flex: 2 },
                   ]}
                 >
-                  {item.price} × {item.sold}
+                  ₹{item.price.toFixed(2)} × {item.sold}
                 </Text>
 
                 <Text
                   style={[
                     styles.rowText,
+                    styles.colNum,
                     { flex: 1 },
                   ]}
                 >
-                  ₹{item.amount}
+                  ₹{item.amount.toFixed(2)}
                 </Text>
               </View>
             ))}

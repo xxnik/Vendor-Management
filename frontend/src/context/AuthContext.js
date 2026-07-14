@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
+import { api } from "../config";
 
 const AuthContext = createContext();
 
@@ -9,40 +10,6 @@ const USER_KEY = "@ict_user";
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const restoreSession = async () => {
-      try {
-        const [storedToken, storedUser] = await Promise.all([
-          SecureStore.getItemAsync(TOKEN_KEY),
-          SecureStore.getItemAsync(USER_KEY),
-        ]);
-
-        if (isMounted) {
-          if (storedUser) {
-            setUser(JSON.parse(storedUser));
-          }
-          if (storedToken) {
-            // Token is available for axios interceptor via a shared module or context
-          }
-        }
-      } catch (e) {
-        console.log("Auth restore error:", e);
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    restoreSession();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const setUserWithStorage = async (userData) => {
     setUser(userData);
@@ -83,6 +50,61 @@ export function AuthProvider({ children }) {
     }
     setUser(null);
   };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const restoreSession = async () => {
+      try {
+        const [storedToken, storedUser] = await Promise.all([
+          SecureStore.getItemAsync(TOKEN_KEY),
+          SecureStore.getItemAsync(USER_KEY),
+        ]);
+
+        if (!isMounted) return;
+
+        if (storedToken && storedUser) {
+          try {
+            const response = await api.get("/api/auth/me", {
+              headers: {
+                Authorization: `Bearer ${storedToken}`,
+              },
+            });
+
+            if (isMounted && response.data?.success && response.data?.user) {
+              setUser(response.data.user);
+              await SecureStore.setItemAsync(USER_KEY, JSON.stringify(response.data.user));
+            } else {
+              await clearAuth();
+            }
+          } catch (error) {
+            if (isMounted && error.response?.status === 401) {
+              await clearAuth();
+            } else if (isMounted && storedUser) {
+              setUser(JSON.parse(storedUser));
+            }
+          }
+        } else if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+
+        if (isMounted) {
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log("Auth restore error:", e);
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    restoreSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, setUser: setUserWithStorage, setToken, getToken, clearAuth }}>

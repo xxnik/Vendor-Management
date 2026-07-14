@@ -478,6 +478,14 @@ headerText: {
   textAlign: "center",
 },
 
+colItem: {
+  textAlign: "left",
+},
+
+colNum: {
+  textAlign: "right",
+},
+
 tableRow: {
   flexDirection: "row",
   borderBottomWidth: 1,
